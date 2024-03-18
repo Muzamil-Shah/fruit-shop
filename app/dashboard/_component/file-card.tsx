@@ -9,22 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -40,11 +30,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import {
-  DeleteIcon,
   FileTextIcon,
   GanttChartIcon,
   ImageIcon,
   MoreVertical,
+  StarIcon,
   TrashIcon,
   TypeIcon,
 } from "lucide-react";
@@ -60,7 +50,11 @@ export interface FileCardProps {
 function FileCardActions({ file }: FileCardProps) {
   const { toast } = useToast();
   const deleteFile = useMutation(api?.files?.deleteFile);
-  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const toggleFavorite = useMutation(api?.files?.toggleFavorite);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState<boolean | undefined>(
+    false
+  );
+  const [isFavorites, setIsFavorites] = React.useState<string[] | null>(null);
 
   return (
     <>
@@ -106,6 +100,12 @@ function FileCardActions({ file }: FileCardProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
+            onClick={() => toggleFavorite({ fileId: file?._id })}
+            className="flex gap-1 text-yellow-600 items-center cursor-pointer"
+          >
+            <StarIcon className="w-4 h-4" /> Favorite
+          </DropdownMenuItem>
+          <DropdownMenuItem
             onClick={() => setIsConfirmOpen(true)}
             className="flex gap-1 text-red-600 items-center cursor-pointer"
           >
@@ -135,9 +135,9 @@ export function FileCard({ file }: FileCardProps) {
           {file.name} <FileCardActions file={file} />
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full flex justify-center items-center">
         {file?.type === "image" && (
-          <div className="w-full h-64 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950 rounded-lg shadow-md flex justify-center items-center">
+          <div className="w-32 h-32 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950  flex justify-center items-center">
             <Image
               alt={file?.name}
               width="200"
@@ -147,13 +147,13 @@ export function FileCard({ file }: FileCardProps) {
           </div>
         )}
         {file?.type === "csv" && (
-          <div className="w-full h-64 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950 rounded-lg shadow-md flex justify-center items-center">
-            <GanttChartIcon className="w-full h-64" />{" "}
+          <div className="w-32 h-32 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950 rounded-lg shadow-md flex justify-center items-center">
+            <GanttChartIcon className="w-32 h-32" />{" "}
           </div>
         )}
         {file?.type === "pdf" && (
-          <div className="w-full h-64 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950 rounded-lg shadow-md flex justify-center items-center">
-            <FileTextIcon className="w-full h-64" />
+          <div className="w-32 h-32 hover:shadow-sm hover:duration-100 hover:delay-200 hover:ease-in-out hover:transform   hover:shadow-gray-950 rounded-lg shadow-md flex justify-center items-center">
+            <FileTextIcon className="w-full h-32" />
           </div>
         )}
       </CardContent>
