@@ -34,6 +34,7 @@ import {
   GanttChartIcon,
   ImageIcon,
   MoreVertical,
+  StarHalf,
   StarIcon,
   TrashIcon,
   TypeIcon,
@@ -42,19 +43,24 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
+import { Protect } from "@clerk/nextjs";
 
+export interface FileCardActionProps {
+  file: Doc<"files">;
+  isFavorited: boolean;
+}
 export interface FileCardProps {
   file: Doc<"files">;
+  favorites: Doc<"favorites">[];
 }
 
-function FileCardActions({ file }: FileCardProps) {
+function FileCardActions({ file, isFavorited }: FileCardActionProps) {
   const { toast } = useToast();
   const deleteFile = useMutation(api?.files?.deleteFile);
   const toggleFavorite = useMutation(api?.files?.toggleFavorite);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState<boolean | undefined>(
     false
   );
-  const [isFavorites, setIsFavorites] = React.useState<string[] | null>(null);
 
   return (
     <>
@@ -103,14 +109,21 @@ function FileCardActions({ file }: FileCardProps) {
             onClick={() => toggleFavorite({ fileId: file?._id })}
             className="flex gap-1 text-yellow-600 items-center cursor-pointer"
           >
-            <StarIcon className="w-4 h-4" /> Favorite
+            {isFavorited ? (
+              <StarHalf className="w-4 h-4" />
+            ) : (
+              <StarIcon className="w-4 h-4" />
+            )}{" "}
+            Favorite
           </DropdownMenuItem>
+          {/* <Protect role="org:admin" fallback={<></>}> */}
           <DropdownMenuItem
             onClick={() => setIsConfirmOpen(true)}
             className="flex gap-1 text-red-600 items-center cursor-pointer"
           >
             <TrashIcon className="w-4 h-4" /> Delete
           </DropdownMenuItem>
+          {/* </Protect> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
@@ -121,18 +134,22 @@ function getFileUrl(fileId: Id<"_storage">): string {
   return `${process?.env?.NEXT_PUBLIC_CONVEX_URL}/api/storage/${fileId}`;
 }
 
-export function FileCard({ file }: FileCardProps) {
+export function FileCard({ file, favorites }: FileCardProps) {
   const typeIcons = {
     image: <ImageIcon />,
     pdf: <FileTextIcon />,
     csv: <GanttChartIcon />,
   } as Record<Doc<"files">["type"], React.ReactNode>;
+
+  const isFavorited = favorites?.some(
+    (favorite) => favorite?.fileId === file?._id
+  );
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           <span>{typeIcons[file?.type]}</span>
-          {file.name} <FileCardActions file={file} />
+          {file.name} <FileCardActions isFavorited={isFavorited} file={file} />
         </CardTitle>
       </CardHeader>
       <CardContent className="w-full flex justify-center items-center">

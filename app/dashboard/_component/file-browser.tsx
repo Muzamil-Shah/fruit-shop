@@ -14,10 +14,10 @@ import { Button } from "@/components/ui/button";
 
 export function FileBrowsers({
   title,
-  favorites,
+  favoritesOnly,
 }: {
   title: string;
-  favorites: boolean;
+  favoritesOnly?: boolean;
 }) {
   const organization = useOrganization();
   const user = useUser();
@@ -27,9 +27,14 @@ export function FileBrowsers({
   if (organization?.isLoaded && user?.isLoaded) {
     orgId = organization?.organization?.id ?? user?.user?.id;
   }
+
   const files = useQuery(
     api.files.getFiles,
-    orgId ? { orgId, query, favorites } : "skip"
+    orgId ? { orgId, query, favorites: favoritesOnly } : "skip"
+  );
+  const favorites = useQuery(
+    api.files.getAllFavorites,
+    orgId ? { orgId } : "skip"
   );
   const isLoading = files === undefined;
   return (
@@ -68,7 +73,13 @@ export function FileBrowsers({
           )}
           <div className="w-full p-2 flex flex-wrap gap-3 justify-center  mt-10 ">
             {files?.map((file) => {
-              return <FileCard key={file?._id} file={file} />;
+              return (
+                <FileCard
+                  favorites={favorites ?? []}
+                  key={file?._id}
+                  file={file}
+                />
+              );
             })}
           </div>
         </>
