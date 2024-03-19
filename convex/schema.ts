@@ -2,10 +2,10 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export const roles = v.union(v.literal('admin'), v.literal('member'));
-
+export const FileType = v.union(v.literal("image"), v.literal('csv'), v.literal('pdf'))
 export default defineSchema({
   files: defineTable({ name: v.string() ,
-    type: v.union(v.literal("image"), v.literal('csv'), v.literal('pdf')), 
+    type: FileType, 
     orgId: v.string(), 
     fileId: v.id("_storage"),
     shouldDelete: v.optional(v.boolean()),

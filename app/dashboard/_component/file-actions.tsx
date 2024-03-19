@@ -50,6 +50,7 @@ export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
   const [isConfirmOpen, setIsConfirmOpen] = React.useState<boolean | undefined>(
     false
   );
+  const me = useQuery(api.users.getMe);
 
   return (
     <>
@@ -112,12 +113,21 @@ export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
             onClick={() => {
               window?.open(getFileUrl(file?.fileId), "_blank");
             }}
-            className="flex gap-1 text-yellow-600 items-center cursor-pointer"
+            className="flex gap-1 text-green-600 items-center cursor-pointer"
           >
             <DownloadCloudIcon className="w-4 h-4" />
             Download
           </DropdownMenuItem>
-          <Protect role="org:admin" fallback={<></>}>
+          <Protect
+            condition={(check) => {
+              return (
+                check({
+                  role: "org:admin",
+                }) || file?.userId === me?._id
+              );
+            }}
+            fallback={<></>}
+          >
             <DropdownMenuItem
               onClick={() => {
                 if (file?.shouldDelete) {
