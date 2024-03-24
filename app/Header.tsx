@@ -11,10 +11,10 @@ import Link from "next/link";
 export function Header() {
   return (
     <div className="border-b py-4 bg-gray-50">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="mx-auto px-4  flex justify-between items-center">
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
           <Image width={40} height={40} alt="logo" src="/logo.png" />
-          FileDrive
+          Filo FD
         </Link>
         <div className="flex justify-end items-center space-x-2">
           <OrganizationSwitcher />
