@@ -42,7 +42,7 @@ export default function SearchBar({ query, setQuery }: SearchBarProps) {
        
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex justify-between items-center space-x-2 "
+        className="flex justify-between items-center space-x-2 py-2"
       >
         <FormField
           control={form.control}
@@ -60,13 +60,15 @@ export default function SearchBar({ query, setQuery }: SearchBarProps) {
 
         <Button
           type="submit"
+          size={"default"}
           disabled={form?.formState?.isSubmitting}
           variant="outline"
+          className="gap-2"
         >
           {form?.formState?.isSubmitting && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          <Search className="mr-2" /> Search
+          <Search className="" /> <span className="hidden md:flex">Search</span>
         </Button>
       </form>
     </Form>

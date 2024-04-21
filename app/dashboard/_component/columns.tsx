@@ -25,43 +25,44 @@ function UserCell({ userId }: { userId: Id<"users"> }) {
   );
 }
 
-export const columns: ColumnDef<Doc<"files"> & { isFavorited: boolean }>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    header: "User",
-    cell: ({ row }) => {
-      return <UserCell userId={row?.original.userId} />;
+export const columns: ColumnDef<Doc<"products"> & { isFavorited: boolean }>[] =
+  [
+    {
+      accessorKey: "name",
+      header: "Name",
     },
-  },
-  {
-    header: "Uploaded on",
-    cell: ({ row }) => {
-      return (
-        <div className="text-xs text-gray-500 flex justify-end items-start gap-2">
-          <UploadIcon className="w-4 h-4" />
-          {formatRelative(new Date(row?.original?._creationTime), new Date())}
-        </div>
-      );
+    {
+      accessorKey: "description",
+      header: "Description",
     },
-  },
-  {
-    header: "Actions",
-    cell: ({ row }) => {
-      return (
-        <div>
-          <FileCardActions
-            file={row?.original}
-            isFavorited={row?.original?.isFavorited}
-          />
-        </div>
-      );
+    {
+      header: "User",
+      cell: ({ row }) => {
+        return <UserCell userId={row?.original.userId} />;
+      },
     },
-  },
-];
+    {
+      header: "Uploaded on",
+      cell: ({ row }) => {
+        return (
+          <div className="text-xs text-gray-500 flex justify-end items-start gap-2">
+            <UploadIcon className="w-4 h-4" />
+            {formatRelative(new Date(row?.original?._creationTime), new Date())}
+          </div>
+        );
+      },
+    },
+    {
+      header: "Actions",
+      cell: ({ row }) => {
+        return (
+          <div>
+            <FileCardActions
+              product={row?.original}
+              isFavorited={row?.original?.isFavorited}
+            />
+          </div>
+        );
+      },
+    },
+  ];

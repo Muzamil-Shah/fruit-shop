@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FileIcon } from "lucide-react";
 import SideBar from "./side-nav";
+import { Header } from "../Header";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -13,12 +19,31 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const userProfile = useQuery(api.users.getMe);
+  const user = useUser();
+  let orgId: string | undefined = undefined;
+  if (user?.isLoaded) {
+    orgId = user?.user?.id;
+  }
+
+  const notifications = useQuery(
+    api.notifications.getNotification,
+    orgId
+      ? {
+          orgId,
+          userId: userProfile?._id ?? "",
+        }
+      : "skip"
+  );
   return (
-    <main className="conatiner mx-auto pt-4 px-2">
-      <div className="flex gap-8">
-        <SideBar />
-        <div className="w-full ">{children}</div>
-      </div>
-    </main>
+    <>
+      <Header />
+      <main className="conatiner mx-auto  px-2 pt-20">
+        <div className="w-full flex gap-8 ">
+          <SideBar />
+          <div className="w-full py-2 ">{children}</div>
+        </div>
+      </main>
+    </>
   );
 }

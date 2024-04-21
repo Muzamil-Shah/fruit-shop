@@ -20,6 +20,7 @@ import {
 
 import {
   DownloadCloudIcon,
+  Edit2Icon,
   MoreVertical,
   StarHalf,
   StarIcon,
@@ -29,28 +30,34 @@ import {
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/components/ui/use-toast";
-import { Protect } from "@clerk/nextjs";
-
-import { getFileUrl } from "./file-card";
+import { Protect, useOrganization, useUser } from "@clerk/nextjs";
+import UploadButton from "./upload-button";
 
 export interface FileCardActionProps {
-  file: Doc<"files">;
+  product: Doc<"products">;
   isFavorited: boolean;
 }
 export interface FileCardProps {
-  file: Doc<"files">;
+  product: Doc<"products">;
   favorites: Doc<"favorites">[];
 }
 
-export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
+export function FileCardActions({ product, isFavorited }: FileCardActionProps) {
   const { toast } = useToast();
-  const deleteFile = useMutation(api?.files?.deleteFile);
+  const deleteProduct = useMutation(api?.products?.deleteProduct);
   const restoreFile = useMutation(api?.files?.restoreFile);
-  const toggleFavorite = useMutation(api?.files?.toggleFavorite);
+  const toggleFavorite = useMutation(api?.products?.toggleFavorite);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState<boolean | undefined>(
     false
   );
   const me = useQuery(api.users.getMe);
+  const user = useUser();
+  const organization = useOrganization();
+
+  let orgId: string | undefined = undefined;
+  if (organization?.isLoaded && user?.isLoaded) {
+    orgId = organization?.organization?.id ?? user?.user?.id;
+  }
 
   return (
     <>
@@ -69,7 +76,10 @@ export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
               onClick={async () => {
                 //todo: actually delete the file
                 try {
-                  await deleteFile({ fileId: file?._id });
+                  await deleteProduct({
+                    fileId: product?._id,
+                    fileStorageId: product.fileStorageId,
+                  });
                   toast({
                     variant: "success",
                     title: "File marked for deletion",
@@ -96,7 +106,9 @@ export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            onClick={() => toggleFavorite({ fileId: file?._id })}
+            onClick={() =>
+              toggleFavorite({ fileId: product?._id, orgId: orgId ?? "" })
+            }
             className="flex gap-1 text-yellow-600 items-center cursor-pointer"
           >
             {isFavorited ? (
@@ -109,46 +121,33 @@ export function FileCardActions({ file, isFavorited }: FileCardActionProps) {
               </div>
             )}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              window?.open(getFileUrl(file?.fileId), "_blank");
-            }}
-            className="flex gap-1 text-green-600 items-center cursor-pointer"
-          >
-            <DownloadCloudIcon className="w-4 h-4" />
-            Download
-          </DropdownMenuItem>
           <Protect
             condition={(check) => {
               return (
                 check({
                   role: "org:admin",
-                }) || file?.userId === me?._id
+                }) || product?.userId === me?._id
               );
             }}
             fallback={<></>}
           >
+            {/* <DropdownMenuItem className="flex gap-1 text-green-600 items-center cursor-pointer"> */}
+            <UploadButton action={"edit"} productId={product?._id} />
+            {/* </DropdownMenuItem> */}
             <DropdownMenuItem
               onClick={() => {
-                if (file?.shouldDelete) {
-                  restoreFile({ fileId: file?._id });
-                } else {
-                  setIsConfirmOpen(true);
-                }
+                // if (product?.shouldDelete) {
+                //   restoreFile({ fileId: product?._id });
+                // } else {
+                setIsConfirmOpen(true);
+                // }
               }}
-              className={`flex gap-1 ${
-                file?.shouldDelete ? "text-green-600" : "text-red-600"
-              } items-center cursor-pointer`}
+              className={`flex gap-1  text-red-600
+               items-center cursor-pointer`}
             >
-              {file?.shouldDelete ? (
-                <div className="flex gap-2">
-                  <Undo2Icon className="w-4 h-4" /> Restore{" "}
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <TrashIcon className="w-4 h-4" /> Delete
-                </div>
-              )}
+              <div className="flex gap-2">
+                <TrashIcon className="w-4 h-4" /> Delete
+              </div>
             </DropdownMenuItem>
           </Protect>
         </DropdownMenuContent>

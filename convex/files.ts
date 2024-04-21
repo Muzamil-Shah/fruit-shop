@@ -18,12 +18,14 @@ async function hasAccessToOrg(ctx: QueryCtx | MutationCtx, orgId: string) {
         if(!identity){
             return null
         }
+        
+        
     const user = await ctx.db.query("users").withIndex("by_tokenIdentifier", q => q.eq('tokenIdentifier', identity?.tokenIdentifier)).first()
         
     if(!user){
         return null;
     }
-        const hasAccess = user?.orgIds.some(item => item.orgId === orgId ) || user?.tokenIdentifier.includes(orgId)
+        const hasAccess =  user?.tokenIdentifier.includes(orgId)
 
         if(!hasAccess){
             return null
@@ -117,7 +119,7 @@ export const deleteFile = mutation({
             throw new ConvexError('no access to file')
         }
 
-        const canDelete = access?.file?.userId === access?.user?._id || access?.user?.orgIds?.find(org => org?.orgId === access.file.orgId)?.role === 'admin';
+        const canDelete =  access?.user?.role === 'admin';
 
         if(!canDelete){
             throw new ConvexError("you have no admin access to delete")
@@ -137,7 +139,7 @@ export const restoreFile = mutation({
             throw new ConvexError('no access to file')
         }
 
-        const canRestore = access?.file?.userId === access?.user?._id || access?.user?.orgIds?.find(org => org?.orgId === access.file.orgId)?.role === 'admin';
+        const canRestore =  access?.user?.role === 'admin';
 
         if(!canRestore){
             throw new ConvexError("you have no admin access to delete")

@@ -1,11 +1,11 @@
 import { useQuery } from "convex/react";
-import { FileBrowsers } from "../_component/file-browser";
 import { api } from "@/convex/_generated/api";
+import { ProductBrowser } from "../_component/product-browser";
 
 export default function FavoritesPage() {
   return (
     <>
-      <FileBrowsers title={"Favorites"} favoritesOnly />
+      <ProductBrowser title={"Favorites"} favoritesOnly />
     </>
   );
 }

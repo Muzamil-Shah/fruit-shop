@@ -1,15 +1,13 @@
-import { hostname } from 'os';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        remotePatterns: [
-            {
-                hostname: "jovial-caribou-138.convex.cloud"
-            }
-        ]
-    }
-};
-
-export default nextConfig;
+      remotePatterns: [
+        {
+                hostname: "woozy-falcon-702.convex.cloud"
+            },
+        ],
+      },
+    };
+    
+    export default nextConfig;
  

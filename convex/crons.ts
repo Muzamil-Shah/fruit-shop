@@ -8,6 +8,11 @@ crons.interval(
   { minutes: 1 }, // every minute
   internal.files.deleteALlFiles
 );
+crons.interval(
+  "delete any old notification marked as seen",
+  { minutes: 1 }, // every minute
+  internal.notifications.deleteALlFiles
+);
 
 
 

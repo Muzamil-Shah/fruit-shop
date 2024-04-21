@@ -18,6 +18,12 @@ import type * as clerk from "../clerk.js";
 import type * as crons from "../crons.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
+import type * as notifications from "../notifications.js";
+import type * as orders from "../orders.js";
+import type * as payments from "../payments.js";
+import type * as productRating from "../productRating.js";
+import type * as products from "../products.js";
+import type * as razorpay from "../razorpay.js";
 import type * as users from "../users.js";
 
 /**
@@ -33,6 +39,12 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   files: typeof files;
   http: typeof http;
+  notifications: typeof notifications;
+  orders: typeof orders;
+  payments: typeof payments;
+  productRating: typeof productRating;
+  products: typeof products;
+  razorpay: typeof razorpay;
   users: typeof users;
 }>;
 export declare const api: FilterApi<

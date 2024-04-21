@@ -1,7 +1,7 @@
 export default {
     providers: [
       {
-        domain: "https://ultimate-flounder-30.clerk.accounts.dev",
+        domain: "https://superb-jaybird-7.clerk.accounts.dev",
         applicationID: "convex",
       },
     ]

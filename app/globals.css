@@ -77,3 +77,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.label {
+  font-family: 'Calligraffitti', cursive;
+  font-weight: 700;
+  font-size: 6rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #38db0b; /* Almond color */
+  text-shadow: 
+    -15px 5px 20px #38db0b,   /* Gray shadow */
+    5px 5px 0px #0c2e03,          /* Black shadow */
+    10px 10px 0px #1d610a,        /* Dark gray shadow */
+    15px 15px 0px  #2e9911,       /* Medium gray shadow */
+    20px 20px 0px #3bbd17,        /* Light gray shadow */
+    25px 25px 0px #006400,     /* Dark green shadow */
+    30px 30px 0px #008000;     /* Medium green shadow */
+}
