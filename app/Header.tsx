@@ -9,8 +9,8 @@ import {
 } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import MobileNav from "./dashboard/mobile-nav";
-import CartButton from "./dashboard/_component/cart-button";
+import MobileNav from "./shopping/mobile-nav";
+import CartButton from "./shopping/_component/cart-button";
 import {
   DropdownMenu,
   DropdownMenuContent,

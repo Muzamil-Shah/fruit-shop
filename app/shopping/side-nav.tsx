@@ -22,42 +22,42 @@ const SideBar = () => {
   const me = useQuery(api.users.getMe);
   return (
     <div className="hidden w-40  sm:flex flex-col gap-4 border-r py-2">
-      <Link href="/dashboard/products">
+      <Link href="/shopping/products">
         <Button
           variant="link"
           className={clsx("flex gap-2", {
-            "text-blue-500": pathname.includes("/dashboard/products"),
+            "text-blue-500": pathname.includes("/shopping/products"),
           })}
         >
           <DatabaseIcon /> All Products
         </Button>
       </Link>
-      <Link href="/dashboard/favorites">
+      <Link href="/shopping/favorites">
         <Button
           variant="link"
           className={clsx("flex gap-2", {
-            "text-blue-500": pathname.includes("/dashboard/favorites"),
+            "text-blue-500": pathname.includes("/shopping/favorites"),
           })}
         >
           <StarIcon /> Favorites
         </Button>
       </Link>
-      <Link href="/dashboard/orders">
+      <Link href="/shopping/orders">
         <Button
           variant="link"
           className={clsx("flex gap-2", {
-            "text-blue-500": pathname.includes("/dashboard/orders"),
+            "text-blue-500": pathname.includes("/shopping/orders"),
           })}
         >
           <ShoppingCartIcon /> Orders
         </Button>
       </Link>
 
-      <Link href="/dashboard/privacy-policy">
+      <Link href="/shopping/privacy-policy">
         <Button
           variant="link"
           className={clsx("flex gap-2", {
-            "text-blue-500": pathname.includes("/dashboard/privacy-policy"),
+            "text-blue-500": pathname.includes("/shopping/privacy-policy"),
           })}
         >
           <WholeWord /> Privacy Policy
@@ -73,11 +73,11 @@ const SideBar = () => {
         }}
         fallback={<></>}
       >
-        <Link href="/dashboard/trash">
+        <Link href="/shopping/trash">
           <Button
             variant="link"
             className={clsx("flex gap-2", {
-              "text-blue-500": pathname.includes("/dashboard/trash"),
+              "text-blue-500": pathname.includes("/shopping/trash"),
             })}
           >
             <Trash2Icon /> Deleted

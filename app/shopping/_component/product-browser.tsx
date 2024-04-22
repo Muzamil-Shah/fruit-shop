@@ -248,7 +248,7 @@ export function ProductBrowser({
               </div>
             </div>
           </div>
-          <ScrollArea className=" h-[500px] md:h-[800px]">
+          <ScrollArea className=" h-[500px] md:h-[800px] pb-10">
             {Status === "LoadingMore" && (
               <div className="mt-32 w-full flex flex-col justify-center items-center">
                 <Loader2 className="mr-2 h-32 w-32 animate-spin" />

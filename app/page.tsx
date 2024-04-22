@@ -15,7 +15,7 @@ export default function LangnigPage() {
     //       <Image src={"/loader.png"} alt="loader" width={400} height={400} />
     //     </div>
     //     <Link
-    //       href="/dashboard/products"
+    //       href="/shopping/products"
     //       className="p-2 rounded-md px-10 font-bold text-slate-50 bg-gradient-to-r from-orange-900 to-amber-500 hover:from-pink-500 hover:to-yellow-500 ..."
     //     >
     //       Shoping Now
@@ -45,7 +45,7 @@ export default function LangnigPage() {
             Premium dry fruits for a healthier lifestyle
           </p> */}
           <Link
-            href="/dashboard/products"
+            href="/shopping/products"
             className="p-3 rounded-lg px-10  font-bold text-slate-50 bg-gradient-to-r from-green-900 to-lime-500 hover:from-lime-500 hover:to-green-500 ..."
           >
             Shop Now

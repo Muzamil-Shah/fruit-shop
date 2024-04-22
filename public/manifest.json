@@ -1,0 +1,32 @@
+{
+    "theme_color": "#110900",
+    "background_color": "#0a0500",
+    "display": "browser",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Afghan Crunchy Dry Fruits",
+    "short_name": "Afghan Crunchy DF",
+    "description": "Afghan Crunchy Dry Fruits is the biggest dry fruits company all over India",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

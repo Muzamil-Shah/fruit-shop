@@ -195,7 +195,7 @@ export function OrderBrowser({
               </Select>
             </div>
           </div>
-          <ScrollArea className=" h-[500px] md:h-[800px] justify-center  ">
+          <ScrollArea className=" h-[500px] md:h-[800px] justify-center pb-10 ">
             {Status === "LoadingMore" && results.length === 0 && (
               <div className="mt-32 w-full flex flex-col justify-center items-center">
                 <Loader2 className="mr-2 h-32 w-32 animate-spin" />
@@ -217,7 +217,7 @@ export function OrderBrowser({
                 </p>
                 {/* <UploadButton action="create" /> */}
                 <Button>
-                  <Link href={"/dashboard/products"}>Shop Now</Link>
+                  <Link href={"/shopping/products"}>Shop Now</Link>
                 </Button>
               </div>
             ) : (
