@@ -15,6 +15,7 @@ interface CartItem {
   fileStorageId: Id<"_storage">;
   orgId: string;
   userId: Id<"users">;
+  offer?: number;
 }
 
 interface CartContextType {
@@ -86,6 +87,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       fileStorageId: product?.fileStorageId,
       orgId: product?.orgId,
       userId: product?.userId,
+      offer: product?.offer,
     };
 
     const isExisted = cart?.items.find(

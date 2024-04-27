@@ -4,7 +4,7 @@ export default function PrivacyPolicyPage() {
       <h3 className="text-xl font-semibold">Privacy Policy</h3>
       <p className="text-slate-600">
         This Privacy Policy describes how{" "}
-        <span className="font-semibold text-black">
+        <span className="font-semibold text-back dark:text-white">
           Afghan Crunchy Dry Fruits
         </span>{" "}
         we collects, uses, and shares information when you use our website
@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
       </p>
       <h3 className="text-xl font-semibold">Information We Collect</h3>
       <li className="text-slate-600">
-        <h3 className="text-base font-semibold text-black">
+        <h3 className="text-base font-semibold text-back dark:text-white">
           Personal Information:
         </h3>
         <p className="text-slate-600">
@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
         </p>{" "}
       </li>
       <li className="text-slate-600">
-        <h3 className="text-base font-semibold text-black">
+        <h3 className="text-base font-semibold text-back dark:text-white">
           {" "}
           Usage Information:
         </h3>

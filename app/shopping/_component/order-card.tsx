@@ -111,7 +111,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.ordered ? "bg-blue-600" : "bg-gray-100"
+            statusActive?.ordered
+              ? "bg-blue-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -133,7 +135,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.accepted ? "bg-blue-600" : "bg-gray-100"
+            statusActive?.accepted
+              ? "bg-blue-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -155,7 +159,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.pickup ? "bg-blue-600" : "bg-gray-100"
+            statusActive?.pickup
+              ? "bg-blue-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -175,7 +181,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.deliver ? "bg-blue-600" : "bg-gray-100"
+            statusActive?.deliver
+              ? "bg-blue-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -197,7 +205,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.completed ? "bg-blue-600" : "bg-gray-100"
+            statusActive?.completed
+              ? "bg-blue-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -219,7 +229,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.returned ? "bg-organge-600" : "bg-gray-100"
+            statusActive?.returned
+              ? "bg-organge-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -241,7 +253,9 @@ export function DeliveryStatusShowcase({
       <div className="flex justify-center items-center gap-1">
         <div
           className={`px-4 py-0.5 rounded-full ${
-            statusActive?.cancelled ? "bg-red-600" : "bg-gray-100"
+            statusActive?.cancelled
+              ? "bg-red-600"
+              : "bg-gray-100 dark:bg-gray-900"
           }`}
         ></div>
         <div className="flex justify-start items-center gap-1">
@@ -344,7 +358,7 @@ export function OrderCard({
                         <span className="font-bold">{item?.name}</span>
                         <span className="flex items-center gap-2 text-xs">
                           {item?.selectedPrice?.quantity} /{" "}
-                          <span className="font-bold flex items-center gap-1 text-black">
+                          <span className="font-bold flex items-center gap-1 text-back dark:text-white">
                             <IndianRupeeIcon size={14} />
                             {item?.selectedPrice?.price}
                           </span>
@@ -356,7 +370,7 @@ export function OrderCard({
                           <span>{item?.qty}</span>
                         </div>
                       </span>
-                      <span className="font-bold flex items-center gap-1 text-xs text-black">
+                      <span className="font-bold flex items-center gap-1 text-xs text-back dark:text-white">
                         <IndianRupeeIcon size={14} />
                         {item?.selectedPrice?.price * item?.qty}
                       </span>
@@ -432,7 +446,7 @@ export function OrderCard({
             </div>
           </CollapsibleContent>
           <CollapsibleTrigger>
-            <div className="w-full flex justify-between items-center gap-2 text-lg text-black">
+            <div className="w-full flex justify-between items-center gap-2 text-lg text-back dark:text-white">
               <span>Grand Total</span>
               <span className="flex justify-end items-center gap-1 font-bold">
                 <IndianRupeeIcon size={16} />
@@ -453,7 +467,7 @@ export function OrderCard({
             </div>
           </CollapsibleContent>
           <CollapsibleContent>
-            <div className="w-full flex justify-between items-center gap-2 text-lg text-black">
+            <div className="w-full flex justify-between items-center gap-2 text-lg text-back dark:text-white">
               <span>To pay</span>
               <span className="flex justify-end items-center gap-1 font-bold">
                 <IndianRupeeIcon size={16} />
@@ -495,7 +509,7 @@ export function OrderCard({
               ))}
             </div>
           )}
-          <div className="flex justify-end items-center gap-2 text-lg text-black">
+          <div className="flex justify-end items-center gap-2 text-lg text-back dark:text-white">
             <Button
               variant={"outline"}
               disabled={order?.deliveryStatus !== "completed"}

@@ -244,6 +244,33 @@ export const updateProduct = mutation({
         })
     },
 })
+export const applyOffer = mutation({
+    args: {
+        fileId: v.id('products')
+    , offer: v.optional(v.number()),
+    orgId: v.optional(v.string())},
+    async handler(ctx, args) {
+        const access = await hasProductsAccess(ctx, args.fileId)
+
+        if(!access){
+            throw new ConvexError('no access to file')
+        }
+
+        const canRestore = access?.product?.userId === access?.user?._id || access?.user?.role === 'admin';
+
+        if(!canRestore){
+            throw new ConvexError("you have no admin access to delete")
+        }
+        
+        console.log('this',args?.fileId, access?.product);
+        
+
+        await ctx?.db?.patch(access?.product?._id,{
+            offer: args.offer ?? undefined,
+            
+        })
+    },
+})
 export const getProductDetails = query({
     args: {
         productId: v.id('products')},

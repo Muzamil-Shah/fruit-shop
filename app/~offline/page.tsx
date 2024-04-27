@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Offline() {
   return (
-    <main className="h-screen bg-gray-100">
+    <main className="h-screen bg-gray-100 dark:bg-gray-900">
       {/* Hero Section */}
       <section className="h-full relative py-20 overflow-hidden flex justify-center items-center">
         {/* Background Image */}

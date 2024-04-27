@@ -67,7 +67,8 @@ export default defineSchema({
     fileStorageId: v.id("_storage"),
     userId: v.id('users'),
     orgId: v.string(),
-    description: v.string()
+    description: v.string(),
+    offer: v.optional(v.number())
   }).index("by_orgId",['orgId']),
   notifications: defineTable({
     userId: v.string(),
@@ -87,8 +88,9 @@ export default defineSchema({
     limit: v.number(),
     selectedPrice: v.object({
       price: v.number(),
-      quantity: v.string()
+      quantity: v.string(),
     }),
+    offer: v.optional(v.number()),
     status: v.boolean(),
     fileStorageId: v.id("_storage"),
     userId: v.id('users'),

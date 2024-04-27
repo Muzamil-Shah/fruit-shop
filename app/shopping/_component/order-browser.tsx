@@ -13,6 +13,7 @@ import {
   RowsIcon,
   Table2Icon,
   TableIcon,
+  WifiOff,
 } from "lucide-react";
 import SearchBar from "./search-bar";
 import { useEffect, useRef, useState } from "react";
@@ -34,6 +35,7 @@ import { api } from "@/convex/_generated/api";
 import { OrderCard } from "./order-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useOnlineStatus from "@/customHooks/useOnlineStatus";
 
 export function OrderBrowser({
   title,
@@ -56,6 +58,7 @@ export function OrderBrowser({
     Doc<"orders">["paymentMethod"] | undefined
   >(undefined);
   const [sort, setSort] = useState<"asc" | "desc">("desc");
+  const isOnline = useOnlineStatus();
 
   let orgId: string | undefined = undefined;
   if (organization?.isLoaded && user?.isLoaded) {
@@ -94,7 +97,7 @@ export function OrderBrowser({
     { initialNumItems: 2 }
   );
 
-  const isLoading = orders === undefined;
+  const isLoading = Status === "LoadingFirstPage";
 
   const sentinelRef = useRef(null);
 
@@ -195,65 +198,100 @@ export function OrderBrowser({
               </Select>
             </div>
           </div>
-          <ScrollArea className=" h-[500px] md:h-[800px] justify-center pb-10 ">
-            {Status === "LoadingMore" && results.length === 0 && (
-              <div className="mt-32 w-full flex flex-col justify-center items-center">
-                <Loader2 className="mr-2 h-32 w-32 animate-spin" />
-                <p className="text-xl font-semibold text-gray-400">
-                  Loading your file...
-                </p>
-              </div>
-            )}
-            {results && results?.length === 0 ? (
-              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 py-16">
-                <Image
-                  width={400}
-                  height={400}
-                  src="/empty_order.svg"
-                  alt="empty image"
-                />
-                <p className="font-semibold text-center text-xl mt-2 text-gray-500">
-                  You have not any order for now,you can order now{" "}
-                </p>
-                {/* <UploadButton action="create" /> */}
-                <Button>
-                  <Link href={"/shopping/products"}>Shop Now</Link>
-                </Button>
-              </div>
-            ) : (
-              <>
-                <TabsContent
-                  value="grid"
-                  className="w-full flex flex-col justify-center items-center"
-                >
-                  <div className="w-[375px] sm:w-full  flex flex-wrap gap-2 justify-center">
-                    {results?.map((order) => {
-                      return (
-                        <OrderCard
-                          key={order?._id}
-                          order={order}
-                          orgId={orgId}
-                        />
-                      );
-                    })}
-                    {Status === "LoadingMore" && (
-                      <div className="flex flex-col space-y-3">
-                        <Skeleton className="h-[125px] w-[600px] rounded-xl" />
-                        <div className="space-y-2">
-                          <Skeleton className="h-4 w-[600px]" />
-                          <Skeleton className="h-4 w-[200px]" />
-                        </div>
-                      </div>
-                    )}
-                    <div ref={sentinelRef} style={{ height: "10px" }}></div>
+          {/* <ScrollArea className=" h-[500px] md:h-[800px] justify-center pb-10 "> */}
+          {isOnline ? (
+            <>
+              {isLoading && (
+                <div className="flex flex-wrap gap-2  justify-center items-center p-4">
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
                   </div>
-                </TabsContent>
-                {/* <TabsContent value="table">
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {!isLoading && results?.length === 0 ? (
+                <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 dark:bg-gray-900 py-16">
+                  <Image
+                    width={400}
+                    height={400}
+                    src="/empty_order.svg"
+                    alt="empty image"
+                  />
+                  <p className="font-semibold text-center text-xl mt-2 text-gray-500">
+                    You have not any order for now,you can order now{" "}
+                  </p>
+                  {/* <UploadButton action="create" /> */}
+                  <Button>
+                    <Link href={"/shopping/products"}>Shop Now</Link>
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <TabsContent
+                    value="grid"
+                    className="w-full flex flex-col justify-center items-center"
+                  >
+                    <div className="w-[375px] sm:w-full  flex flex-wrap gap-2 justify-center p-4">
+                      {results?.map((order) => {
+                        return (
+                          <OrderCard
+                            key={order?._id}
+                            order={order}
+                            orgId={orgId}
+                          />
+                        );
+                      })}
+                      {Status === "LoadingMore" && (
+                        <div className="flex flex-col space-y-3">
+                          <Skeleton className="h-[125px] w-[600px] rounded-xl" />
+                          <div className="space-y-2">
+                            <Skeleton className="h-4 w-[600px]" />
+                            <Skeleton className="h-4 w-[200px]" />
+                          </div>
+                        </div>
+                      )}
+                      <div ref={sentinelRef} style={{ height: "10px" }}></div>
+                    </div>
+                  </TabsContent>
+                  {/* <TabsContent value="table">
                   <DataTable columns={columns} data={order} />
                 </TabsContent> */}
-              </>
-            )}
-          </ScrollArea>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="mt-32 w-full flex flex-col justify-center items-center">
+              <WifiOff className="mr-2 h-16 w-16" />
+              <p className="text-xl font-semibold text-gray-400">
+                It seem your offline, please check your internet connections!
+              </p>
+            </div>
+          )}
+          {/* </ScrollArea> */}
         </Tabs>
       </div>
     </>

@@ -40,6 +40,7 @@ export const createorder = mutation({
       orgId: v.string(),
       description: v.string(),
       qty: v.number(),
+      offer: v.optional(v.number()),
       url: v.string()})),
       shippingInformation: ShippingInformation,
     paymentMethod: PaymentMethod,

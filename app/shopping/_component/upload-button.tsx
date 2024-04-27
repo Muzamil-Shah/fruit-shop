@@ -463,7 +463,7 @@ export default function UploadButton({
                         >
                           <span>{i + 1}</span>
                           <span>{selectedPrice?.quantity}</span>
-                          <span className="flex items-center gap-1 font-semibold text-black">
+                          <span className="flex items-center gap-1 font-semibold text-back dark:text-white">
                             <IndianRupeeIcon size={16} />
                             {selectedPrice.price}
                           </span>

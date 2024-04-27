@@ -24,6 +24,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { ConvexError } from "convex/values";
 import { format, formatDistance } from "date-fns";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Notification() {
   const userProfile = useQuery(api.users.getMe);
@@ -46,7 +47,7 @@ export default function Notification() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"} size={"icon"} className="relative">
+        <Button variant={"outline"} size={"icon"} className="relative">
           <div className="absolute top-0 right-1">{notifications?.length}</div>
           <BellIcon />
         </Button>
@@ -116,7 +117,7 @@ export default function Notification() {
 
 export function Header() {
   return (
-    <div className="fixed w-full border-b py-4 bg-gray-50 z-50">
+    <div className="fixed w-full border-b py-4 z-50 bg-gray-50 dark:bg-black">
       <div className="mx-auto px-4  flex justify-between items-center">
         <div className="flex sm:hidden">
           <MobileNav />
@@ -132,6 +133,7 @@ export function Header() {
         </div>
         <div className="flex justify-end items-center space-x-2">
           {/* <OrganizationSwitcher /> */}
+          <ModeToggle />
           <Notification />
           <CartButton />
           <UserButton />

@@ -18,8 +18,12 @@ import {
   GanttChartIcon,
   ImageIcon,
   IndianRupeeIcon,
+  Info,
   MinusCircleIcon,
+  PercentDiamondIcon,
+  PercentIcon,
   PlusCircleIcon,
+  PresentationIcon,
   ShoppingBagIcon,
   ShoppingCart,
   ShoppingCartIcon,
@@ -109,9 +113,12 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import Rating from "./rating";
+import { Input } from "@/components/ui/input";
 
 export function ResizableDemo({ product }: ProductCardProps) {
   const updateProduct = useMutation(api.products.updateProduct);
+  const applyOffer = useMutation(api.products.applyOffer);
+  const [offer, setOffer] = React.useState<number>(0);
 
   const updateProductStatus = async (checked: boolean) => {
     try {
@@ -128,6 +135,25 @@ export function ResizableDemo({ product }: ProductCardProps) {
       toast({
         title: "Product Updated Fail",
         description: "Stack Availablity Update Fail, please try later",
+        variant: "success",
+      });
+    }
+  };
+  const applyOfferHandler = async () => {
+    try {
+      await applyOffer({
+        fileId: product?._id,
+        offer: offer > 0 ? offer : undefined,
+      });
+      toast({
+        title: "Offer Added Successfully",
+        description: `You successfully added ${offer}% of your product`,
+        variant: "success",
+      });
+    } catch (err) {
+      toast({
+        title: "Offer Adding Fail",
+        description: "Adding Offer to Product Fail, please try later",
         variant: "success",
       });
     }
@@ -160,7 +186,7 @@ export function ResizableDemo({ product }: ProductCardProps) {
       <ResizablePanel defaultSize={50}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={25}>
-            <div className="flex h-full items-center justify-center p-6">
+            <div className="flex flex-col  items-center justify-center p-2">
               <div className="flex items-center space-x-2">
                 <Switch
                   checked={product?.status}
@@ -174,7 +200,30 @@ export function ResizableDemo({ product }: ProductCardProps) {
             </div>
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={75}>
+          <ResizablePanel defaultSize={25}>
+            <div className="flex flex-col  items-center justify-center p-2">
+              <div className="flex justify-between items-center gap-2">
+                <Input
+                  className="p-2 h-8"
+                  type="number"
+                  value={offer}
+                  onChange={(e) => setOffer(Number(e?.target.value))}
+                  placeholder="Add offer here"
+                />
+                <Button
+                  size={"sm"}
+                  onClick={applyOfferHandler}
+                  className="flex gap-1"
+                  variant={"destructive"}
+                >
+                  <PercentIcon />
+                  Apply
+                </Button>
+              </div>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={50}>
             <div className="flex flex-col h-full items-center justify-center p-2">
               <span className="font-semibold">Decription</span>
               <span className="text-xs">{product?.description}</span>
@@ -188,6 +237,7 @@ export function ResizableDemo({ product }: ProductCardProps) {
 
 export function FileCard({ product }: ProductCardProps) {
   // const [value, setValue] = useLocalStorage("cart")
+  const [showDiscription, setShowDescription] = React.useState<boolean>(false);
   const [selectedQuantity, setSelectedQuantity] = React.useState<number>(0);
   const [selectedPrice, setSelectedPrice] = React.useState(() => {
     if (product?.selectedPrice && product.selectedPrice.length > 0) {
@@ -223,7 +273,7 @@ export function FileCard({ product }: ProductCardProps) {
 
   console.log(selectedPrice);
   return (
-    <Card className="md:w-[400px] ">
+    <Card className="w-full md:w-[400px] ">
       <CardHeader>
         <CardTitle className="flex justify-between items-center text-base">
           <span className="flex justify-start items-center gap-2">
@@ -246,10 +296,26 @@ export function FileCard({ product }: ProductCardProps) {
               <Star size={16} className="text-yellow-500" />
             </span>
           </span>
-          <FileCardActions
-            isFavorited={product.isFavorited}
-            product={product}
-          />
+          <div className="flex justify-end items-center">
+            <Button
+              onClick={() => setShowDescription((pre) => !pre)}
+              variant={"ghost"}
+              size={"icon"}
+            >
+              <Info />
+            </Button>
+            {product?.offer && product?.offer > 0 && (
+              <Badge variant={"destructive"} className="gap-1">
+                {product?.offer}
+                <PercentIcon size={16} />
+                Offer
+              </Badge>
+            )}
+            <FileCardActions
+              isFavorited={product.isFavorited}
+              product={product}
+            />
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="w-full flex justify-center items-center">
@@ -264,11 +330,11 @@ export function FileCard({ product }: ProductCardProps) {
         )}
         {/* </div> */}
       </CardContent>
-      <CardFooter className="flex justify-between items-center gap-2">
+      <CardFooter className="flex flex-col justify-between items-center gap-2">
         {me?.role === "admin" ? (
           <ResizableDemo product={product} />
         ) : (
-          <>
+          <div className="flex justify-between items-center gap-2">
             <Select
               defaultValue={
                 product?.selectedPrice.length > 0
@@ -318,7 +384,19 @@ export function FileCard({ product }: ProductCardProps) {
                 <span className="hidden md:flex">Add</span> <ShoppingCart />
               </Button>
             </div>
-          </>
+          </div>
+        )}
+        {showDiscription && (
+          <div className="flex-1">
+            <p className="text-xs sm:text-sm md:text-base lg:text-lg text-wrap">
+              <span className="text-pretty font-medium">Discription:</span>
+              {product?.description}
+              {product.description}. Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Fugit praesentium expedita iste magnam eius nemo
+              nisi accusamus iusto possimus deserunt culpa delectus quo, porro
+              sunt? Ipsum modi incidunt facere molestias?
+            </p>
+          </div>
         )}
       </CardFooter>
     </Card>

@@ -41,6 +41,7 @@ import {
   IndianRupeeIcon,
   Loader2,
   MinusCircleIcon,
+  PercentIcon,
   PhoneCallIcon,
   PhoneIcon,
   PlusCircleIcon,
@@ -111,7 +112,16 @@ export default function CartButton() {
   });
 
   const subTotal =
-    cart?.items?.reduce((c, a) => c + a.selectedPrice?.price * a.qty, 0) ?? 0;
+    cart?.items?.reduce(
+      (c, a) =>
+        a?.offer
+          ? c +
+            (a?.selectedPrice?.price -
+              (a?.offer * a?.selectedPrice?.price) / 100) *
+              a.qty
+          : c + a.selectedPrice?.price * a.qty,
+      0
+    ) ?? 0;
 
   const shopChargesAndGST = parseFloat(((2 * subTotal) / 100).toFixed(2));
 
@@ -223,7 +233,7 @@ export default function CartButton() {
         <Button
           size={"icon"}
           className="flex items-center gap-2 relative"
-          variant={"secondary"}
+          variant={"outline"}
         >
           {cartCount > 0 && (
             <div className="animate-ping p-0 absolute right-1 top-0 text-red-500">
@@ -236,9 +246,9 @@ export default function CartButton() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Card Items</DialogTitle>
-          <DialogDescription className="space-y-2">
+          <DialogDescription className=" space-y-2">
             {orderConfirm ? (
-              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 py-16">
+              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 dark:bg-gray-900 py-16">
                 <Image
                   width={400}
                   height={400}
@@ -253,7 +263,7 @@ export default function CartButton() {
                 </Button>
               </div>
             ) : cart?.items?.length === 0 ? (
-              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 py-16">
+              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 dark:bg-gray-900 py-16">
                 <Image
                   width={400}
                   height={400}
@@ -300,11 +310,11 @@ export default function CartButton() {
                               </span>
                               <span className="flex flex-col items-start justify-start">
                                 <span className="font-bold">
-                                  {product?.name}
+                                  {product?.name}{" "}
                                 </span>
                                 <span className="flex items-center gap-2 text-xs">
                                   {product?.selectedPrice?.quantity} /{" "}
-                                  <span className="font-bold flex items-center gap-1 text-black">
+                                  <span className="font-bold flex items-center gap-1 text-back dark:text-white">
                                     <IndianRupeeIcon size={14} />
                                     {product?.selectedPrice?.price}
                                   </span>
@@ -348,9 +358,43 @@ export default function CartButton() {
                                   </Button>
                                 </div>
                               </span>
-                              <span className="font-bold flex items-center gap-1 text-xs text-black">
-                                <IndianRupeeIcon size={14} />
-                                {product?.selectedPrice?.price * product?.qty}
+                              <span className="font-bold flex items-center gap-1 text-xs text-back dark:text-white">
+                                {product?.offer ? (
+                                  <>
+                                    <Badge
+                                      variant={"destructive"}
+                                      className="text-xs"
+                                    >
+                                      {product?.offer}
+                                      <PercentIcon size={16} />
+                                      off
+                                    </Badge>
+
+                                    <div>
+                                      <div className="flex items-center line-through text-slate-400 text-xs font-thin">
+                                        <IndianRupeeIcon size={14} />
+                                        {product?.selectedPrice?.price *
+                                          product?.qty}
+                                      </div>
+                                      {product?.offer && (
+                                        <div className="flex items-center">
+                                          <IndianRupeeIcon size={14} />
+                                          {(product?.selectedPrice?.price -
+                                            (product?.offer *
+                                              product?.selectedPrice?.price) /
+                                              100) *
+                                            product?.qty}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="flex items-center ">
+                                    <IndianRupeeIcon size={14} />
+                                    {product?.selectedPrice?.price *
+                                      product?.qty}
+                                  </div>
+                                )}
                               </span>
                             </div>
                             <Separator className="my-2" />
@@ -368,7 +412,7 @@ export default function CartButton() {
                       variant={"outline"}
                       className="w-full h-auto px-2 flex flex-col justify-start items-start"
                     >
-                      <div className="text-slate-500 flex items-center gap-2">
+                      <div className=" text-slate-500 flex items-center gap-2">
                         <HomeIcon size={16} /> Delivery to{" "}
                         {
                           userProfile?.shippingInformation[
@@ -376,25 +420,28 @@ export default function CartButton() {
                           ]?.save_as
                         }
                       </div>
-                      <p className="text-sm">
-                        {
-                          userProfile?.shippingInformation[
-                            cart?.selectedAddress ?? 0
-                          ]?.building
-                        }
-                        ,
-                        {
-                          userProfile?.shippingInformation[
-                            cart?.selectedAddress ?? 0
-                          ]?.address
-                        }
-                        ,
-                        {
-                          userProfile?.shippingInformation[
-                            cart?.selectedAddress ?? 0
-                          ]?.near_by
-                        }
-                      </p>
+                      <div className="w-full">
+                        <p className="  text-start text-sm text-wrap">
+                          {
+                            userProfile?.shippingInformation[
+                              cart?.selectedAddress ?? 0
+                            ]?.building
+                          }
+                          ,
+                          {
+                            userProfile?.shippingInformation[
+                              cart?.selectedAddress ?? 0
+                            ]?.address
+                          }
+                          ,
+                          {
+                            userProfile?.shippingInformation[
+                              cart?.selectedAddress ?? 0
+                            ]?.near_by
+                          }
+                        </p>
+                      </div>
+
                       <div className="w-full flex justify-end items-center py-2">
                         <ShippingAddress />
                       </div>
@@ -482,7 +529,7 @@ export default function CartButton() {
                     </div>
                   </CollapsibleContent>
                   <CollapsibleTrigger>
-                    <div className="w-full flex justify-between items-center gap-2 text-lg text-black">
+                    <div className="w-full flex justify-between items-center gap-2 text-lg text-back dark:text-white">
                       <span>Grand Total</span>
                       <span className="flex justify-end items-center gap-1 font-bold">
                         <IndianRupeeIcon size={16} />
@@ -502,7 +549,7 @@ export default function CartButton() {
                     </div>
                   </CollapsibleContent>
                   <CollapsibleContent>
-                    <div className="w-full flex justify-between items-center gap-2 text-lg text-black">
+                    <div className="w-full flex justify-between items-center gap-2 text-lg text-back dark:text-white">
                       <span>To pay</span>
                       <span className="flex justify-end items-center gap-1 font-bold">
                         <IndianRupeeIcon size={16} />
@@ -512,7 +559,7 @@ export default function CartButton() {
                   </CollapsibleContent>
                 </Collapsible>
                 <div className="w-full pt-4 flex flex-col justify-end items-end gap-2">
-                  <div className="flex justify-end items-center gap-2 text-lg text-black">
+                  <div className="flex justify-end items-center gap-2 text-lg text-back dark:text-white ">
                     {!isPaid && !getPayment?._id && (
                       <Select
                         defaultValue={selectPaymentMethod}

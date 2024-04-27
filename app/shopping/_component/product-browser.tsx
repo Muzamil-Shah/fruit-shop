@@ -14,6 +14,7 @@ import {
   RowsIcon,
   Table2Icon,
   TableIcon,
+  WifiOff,
 } from "lucide-react";
 import SearchBar from "./search-bar";
 import { useEffect, useRef, useState } from "react";
@@ -33,6 +34,7 @@ import {
 import CartButton from "./cart-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useOnlineStatus from "@/customHooks/useOnlineStatus";
 
 export function ProductBrowser({
   title,
@@ -52,6 +54,7 @@ export function ProductBrowser({
   const [sortPrice, setSortPrice] = useState<"lowest" | "highest" | "all">(
     "all"
   );
+  const isOnline = useOnlineStatus();
   const me = useQuery(api.users.getMe);
 
   let orgId: string | undefined = undefined;
@@ -96,7 +99,7 @@ export function ProductBrowser({
     api.files.getAllFavorites,
     orgId ? { orgId } : "skip"
   );
-  const isLoading = products === undefined;
+  const isLoading = Status === "LoadingFirstPage";
 
   const modifiedFiles =
     products?.map((file) => ({
@@ -248,53 +251,115 @@ export function ProductBrowser({
               </div>
             </div>
           </div>
-          <ScrollArea className=" h-[500px] md:h-[800px] pb-10">
-            {Status === "LoadingMore" && (
-              <div className="mt-32 w-full flex flex-col justify-center items-center">
-                <Loader2 className="mr-2 h-32 w-32 animate-spin" />
-                <p className="text-xl font-semibold text-gray-400">
-                  Loading your file...
-                </p>
-              </div>
-            )}
-            {products?.length === 0 ? (
-              <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 py-16">
-                <Image
-                  width={600}
-                  height={600}
-                  src="/empty.svg"
-                  alt="empty image"
-                />
-                <p className="font-semibold text-sm md:text-xl mt-2 text-gray-500">
-                  You have not any file for now,you can upload{" "}
-                </p>
-                <UploadButton action="create" />
-              </div>
-            ) : (
-              <>
-                <TabsContent value="grid">
-                  <div className="w-full  flex flex-wrap gap-3 justify-center  ">
-                    {results?.map((product) => {
-                      return <FileCard key={product?._id} product={product} />;
-                    })}
-                  </div>
-                  {Status === "LoadingMore" && (
-                    <div className="flex flex-col space-y-3">
-                      <Skeleton className="h-10 w-[300px]" />
-                      <Skeleton className="h-[125px] w-[300px] rounded-xl" />
-                      <div className="space-y-2">
-                        <Skeleton className="h-10 w-[200px]" />
-                      </div>
+          {/* <ScrollArea className=" h-[600px] md:h-[800px] pb-10"> */}
+          {isOnline ? (
+            <>
+              {isLoading && (
+                <div className="flex flex-wrap gap-2  justify-center items-center p-4">
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
                     </div>
-                  )}
-                  <div ref={sentinelRef} style={{ height: "10px" }}></div>
-                </TabsContent>
-                <TabsContent value="table">
-                  <DataTable columns={columns} data={modifiedFiles} />
-                </TabsContent>
-              </>
-            )}
-          </ScrollArea>
+                  </div>
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-y-3">
+                    <Skeleton className="h-10 w-[320px]" />
+                    <Skeleton className="h-[200px] w-[320px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-10 w-[200px]" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {!isLoading && results?.length < 1 ? (
+                <div className="w-full  flex flex-col justify-center items-center space-y-2 bg-gray-100 dark:bg-gray-900 py-16">
+                  <Image
+                    width={600}
+                    height={600}
+                    src="/empty.svg"
+                    alt="empty image"
+                  />
+                  <Protect
+                    condition={(check) => {
+                      return (
+                        check({
+                          role: "org:admin",
+                        }) || me?.role === "admin"
+                      );
+                    }}
+                    fallback={<></>}
+                  >
+                    <p className=" text-sm md:text-xl mt-2 text-gray-500">
+                      You have not any file for now,you can upload{" "}
+                    </p>
+                    <UploadButton action="create" />
+                  </Protect>
+                  <Protect
+                    condition={(check) => {
+                      return (
+                        check({
+                          role: "org:member",
+                        }) || me?.role === "member"
+                      );
+                    }}
+                    fallback={<></>}
+                  >
+                    <p className=" text-sm md:text-xl mt-2 text-zinc-500">
+                      No Data
+                    </p>
+                  </Protect>
+                </div>
+              ) : (
+                <>
+                  <TabsContent value="grid">
+                    <div className="w-full  flex flex-wrap gap-3 justify-center p-4 ">
+                      {results?.map((product) => {
+                        return (
+                          <FileCard key={product?._id} product={product} />
+                        );
+                      })}
+                    </div>
+                    {Status === "LoadingMore" && (
+                      <div className="flex flex-col space-y-3">
+                        <Skeleton className="h-10 w-[300px]" />
+                        <Skeleton className="h-[125px] w-[300px] rounded-xl" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-10 w-[200px]" />
+                        </div>
+                      </div>
+                    )}
+                    <div ref={sentinelRef} style={{ height: "10px" }}></div>
+                  </TabsContent>
+                  <TabsContent value="table">
+                    <DataTable columns={columns} data={modifiedFiles} />
+                  </TabsContent>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="mt-32 w-full flex flex-col justify-center items-center">
+              <WifiOff className="mr-2 h-16 w-16" />
+              <p className="text-xl font-semibold text-gray-400">
+                It seem your offline, please check your internet connections!
+              </p>
+            </div>
+          )}
+          {/* </ScrollArea> */}
         </Tabs>
       </div>
     </>

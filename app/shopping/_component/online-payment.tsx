@@ -40,7 +40,7 @@ export default function YourBillingComponent({
         image: me?.image,
         order_id: order_id,
         handler: async function (response: any) {
-          alert(JSON.stringify(response));
+          // alert(JSON.stringify(response));
           const data = {
             orderCreationId: order_id ?? "",
             razorpayPaymentId: response.razorpay_payment_id ?? "",

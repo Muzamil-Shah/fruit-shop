@@ -25,7 +25,7 @@ export default function LangnigPage() {
     //     </div> */}
     //   </div>
     // </div>
-    <main className="h-screen bg-gray-100">
+    <main className="h-screen bg-gray-100 dark:bg-gray-900">
       {/* Hero Section */}
       <section className="h-full relative py-20 overflow-hidden flex justify-center items-center">
         {/* Background Image */}
