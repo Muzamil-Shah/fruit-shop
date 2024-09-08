@@ -122,13 +122,13 @@ export function Header() {
         <div className="flex sm:hidden">
           <MobileNav />
         </div>
-        <div className="hidden sm:flex justify-start items-center gap-2">
+        <div className="hidden sm:flex justify-start items-center ">
           <Link
             href="/"
-            className="flex items-center gap-2 font-bold text-xs md:text-xl"
+            className="flex items-center gap-1 font-bold text-xs md:text-xl"
           >
-            <Image width={40} height={40} alt="logo" src="/logo.jpeg" />
-            Afghan Crunchy Dry Fruits
+            <Image width={50} height={50} alt="logo" src="/logo.png" />
+            MSM Afghani Dry Fruits
           </Link>
         </div>
         <div className="flex justify-end items-center space-x-2">

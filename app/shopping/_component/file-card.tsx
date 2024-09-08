@@ -323,18 +323,18 @@ export function FileCard({ product }: ProductCardProps) {
         {product.url && (
           <Image
             alt={product?.name}
-            width="200"
-            height="200"
+            width={200}
+            height={200}
             src={product?.url}
           />
         )}
         {/* </div> */}
       </CardContent>
-      <CardFooter className="flex flex-col justify-between items-center gap-2">
+      <CardFooter className="w-full">
         {me?.role === "admin" ? (
           <ResizableDemo product={product} />
         ) : (
-          <div className="flex justify-between items-center gap-2">
+          <div className=" w-full flex justify-between items-center gap-2">
             <Select
               defaultValue={
                 product?.selectedPrice.length > 0

@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Pollicy",
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="flex flex-col justify-start items-start gap-2 p-4">
@@ -5,7 +11,7 @@ export default function PrivacyPolicyPage() {
       <p className="text-slate-600">
         This Privacy Policy describes how{" "}
         <span className="font-semibold text-back dark:text-white">
-          Afghan Crunchy Dry Fruits
+          MazaSarMaza Afghani Dry Fruits
         </span>{" "}
         we collects, uses, and shares information when you use our website
         http://localhost:3000 (the "Site").

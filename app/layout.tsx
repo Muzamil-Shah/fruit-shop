@@ -8,17 +8,17 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const APP_NAME = "Afghan Crunchy DF";
-const APP_DEFAULT_TITLE = "Afghan Crunchy Dry Fruits";
-const APP_TITLE_TEMPLATE = "%s - Afghan Crunchy DF";
+const APP_NAME = "MazaSarMaza Dry Fruits";
+const APP_DEFAULT_TITLE = "MsM Afghani Dry Fruits";
+const APP_TITLE_TEMPLATE = "%s - MsM Afghani Dry Fruits";
 const APP_DESCRIPTION =
-  "Afghan Crunchy Dry Fruits is the biggest dry fruits company all over India!";
+  "MazaSarMaza Dry Fruits is the most beloved afghani dry fruits Product over india. Taste, Fresh, and Quality is our proiurety!";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
-    template: APP_TITLE_TEMPLATE,
+    template: `%s - ${APP_TITLE_TEMPLATE}`,
   },
   description: APP_DESCRIPTION,
   manifest: "/manifest.json",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: {
       default: APP_DEFAULT_TITLE,
       template: APP_TITLE_TEMPLATE,
