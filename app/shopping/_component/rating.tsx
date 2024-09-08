@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Star, StarHalf, StarOff } from "lucide-react";
 
-const Rating = ({ value, max = 5, onChange }) => {
+const Rating = ({
+  value,
+  max = 5,
+  onChange,
+}: {
+  value: any;
+  max?: number;
+  onChange: any;
+}) => {
   const [hoverValue, setHoverValue] = useState(0);
 
-  const handleClick = (newValue) => {
+  const handleClick = (newValue: any) => {
     onChange(newValue);
   };
 
-  const handleMouseEnter = (newValue) => {
+  const handleMouseEnter = (newValue: any) => {
     setHoverValue(newValue);
   };
 

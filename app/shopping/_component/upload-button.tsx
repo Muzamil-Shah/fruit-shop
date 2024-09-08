@@ -78,11 +78,14 @@ export default function UploadButton({
   const user = useUser();
   const generateUploadUrl = useMutation(api?.files?.generateUploadUrl);
   const { toast } = useToast();
-  const getProductDetails =
-    productId &&
-    useQuery(api.products.getProductDetails, {
-      productId: productId,
-    });
+  const getProductDetails = useQuery(
+    api.products.getProductDetails,
+    productId
+      ? {
+          productId: productId,
+        }
+      : "skip"
+  );
 
   let form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -121,7 +124,10 @@ export default function UploadButton({
 
     if (!orgId) return;
     const postUrl = await generateUploadUrl();
-    const fileTypes = values?.fileStorageId[0].type!;
+    const file = values?.fileStorageId[0] as {
+      type: string;
+    };
+    const fileTypes = file?.type;
 
     const result = await fetch(postUrl, {
       method: "POST",

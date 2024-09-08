@@ -222,7 +222,7 @@ export function ShippingAddress() {
                     name="receiver_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Receiver's name</FormLabel>
+                        <FormLabel>Receiver&apos;s name</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="enter receiver's name"
@@ -239,7 +239,7 @@ export function ShippingAddress() {
                     name="receiver_contact"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Receiver's contact</FormLabel>
+                        <FormLabel>Receiver&apos;s contact</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="enter receiver's contact number"

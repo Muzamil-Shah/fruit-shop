@@ -64,7 +64,7 @@ export interface FileCardActionProps {
   isFavorited: boolean;
 }
 export interface ProductCardProps {
-  product: Doc<"products"> & { isFavorited: boolean; url: string | null };
+  product: Doc<"products"> & { isFavorited?: boolean; url: string | null };
 }
 
 export function QuantityIncremental({
@@ -312,7 +312,7 @@ export function FileCard({ product }: ProductCardProps) {
               </Badge>
             )}
             <FileCardActions
-              isFavorited={product.isFavorited}
+              isFavorited={product.isFavorited ?? false}
               product={product}
             />
           </div>

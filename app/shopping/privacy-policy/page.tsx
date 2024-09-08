@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
           MazaSarMaza Afghani Dry Fruits
         </span>{" "}
         we collects, uses, and shares information when you use our website
-        http://localhost:3000 (the "Site").
+        http://localhost:3000 (the &quot;Site&quot;).
       </p>
       <h3 className="text-xl font-semibold">Information We Collect</h3>
       <li className="text-slate-600">

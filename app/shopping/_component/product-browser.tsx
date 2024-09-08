@@ -328,11 +328,18 @@ export function ProductBrowser({
                 <>
                   <TabsContent value="grid">
                     <div className="w-full  flex flex-wrap gap-3 justify-center p-4 ">
-                      {results?.map((product) => {
-                        return (
-                          <FileCard key={product?._id} product={product} />
-                        );
-                      })}
+                      {results?.map(
+                        (
+                          product: Doc<"products"> & {
+                            isFavorited?: boolean;
+                            url: string | null;
+                          }
+                        ) => {
+                          return (
+                            <FileCard key={product?._id} product={product} />
+                          );
+                        }
+                      )}
                     </div>
                     {Status === "LoadingMore" && (
                       <div className="flex flex-col space-y-3">
