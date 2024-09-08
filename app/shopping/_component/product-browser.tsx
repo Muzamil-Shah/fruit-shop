@@ -4,7 +4,7 @@ import { Protect, useOrganization, useUser } from "@clerk/nextjs";
 import { usePaginatedQuery, useQuery } from "convex/react";
 
 import UploadButton from "./upload-button";
-import { FileCard } from "./file-card";
+import { FileCard, ProductCardProps } from "./file-card";
 import Image from "next/image";
 import {
   FileIcon,
@@ -139,7 +139,7 @@ export function ProductBrowser({
       // Clean up observer
       observer.disconnect();
     };
-  }, [sentinelRef, loadMore]);
+  }, [sentinelRef, loadMore, intersectionCallback]);
 
   return (
     <>

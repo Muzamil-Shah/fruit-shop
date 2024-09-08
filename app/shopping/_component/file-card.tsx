@@ -166,8 +166,8 @@ export function ResizableDemo({ product }: ProductCardProps) {
       <ResizablePanel defaultSize={50}>
         <div className="flex flex-col h-[200px] items-center justify-center p-2">
           <span className="font-semibold">Price List</span>
-          {product.selectedPrice?.map((price) => (
-            <span className="flex items-center text-sm">
+          {product.selectedPrice?.map((price, i) => (
+            <span key={i} className="flex items-center text-sm">
               {price?.quantity} - <IndianRupeeIcon size={16} />
               {price?.price}
             </span>
@@ -355,10 +355,11 @@ export function FileCard({ product }: ProductCardProps) {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Price List</SelectLabel>
-                  {product?.selectedPrice.map((item) => (
+                  {product?.selectedPrice.map((item, i) => (
                     <SelectItem
                       value={`${item?.quantity}-${item?.price}`}
                       className="flex"
+                      key={i}
                     >
                       <div className="flex justify-center items-center gap-2">
                         {`${item?.quantity} - ${item?.price}`}

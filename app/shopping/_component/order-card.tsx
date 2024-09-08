@@ -505,6 +505,7 @@ export function OrderCard({
                   item={item}
                   orgId={orgId ?? ""}
                   productId={item?.productId}
+                  key={i}
                 />
               ))}
             </div>

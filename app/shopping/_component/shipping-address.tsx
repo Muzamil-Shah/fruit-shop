@@ -131,7 +131,10 @@ export function ShippingAddress() {
                     defaultValue={`${cart?.selectedAddress}`}
                   >
                     {userProfile?.shippingInformation?.map((address, i) => (
-                      <div className="w-full flex items-center space-x-2 ">
+                      <div
+                        key={i}
+                        className="w-full flex items-center space-x-2 "
+                      >
                         <RadioGroupItem value={`${i}`} id={`${i}`} />
                         <Label htmlFor={`${i}`}>
                           <div

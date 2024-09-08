@@ -127,7 +127,7 @@ export function OrderBrowser({
       // Clean up observer
       observer.disconnect();
     };
-  }, [sentinelRef, loadMore]);
+  }, [sentinelRef, loadMore, intersectionCallback]);
 
   return (
     <>

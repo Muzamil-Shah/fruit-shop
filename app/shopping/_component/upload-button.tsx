@@ -84,7 +84,6 @@ export default function UploadButton({
       productId: productId,
     });
 
-  console.log("data", productId, getProductDetails);
   let form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -105,7 +104,6 @@ export default function UploadButton({
   });
 
   useEffect(() => {
-    console.log("form", getProductDetails);
     if (getProductDetails) {
       form?.setValue("name", getProductDetails?.name);
       form?.setValue("category", getProductDetails?.category);
@@ -116,14 +114,14 @@ export default function UploadButton({
       form?.setValue("status", getProductDetails?.status);
       form?.setValue("fileStorageId", getProductDetails?.fileStorageId);
     }
-  }, [getProductDetails]);
+  }, [getProductDetails, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log({ orgId });
 
     if (!orgId) return;
     const postUrl = await generateUploadUrl();
-    const fileTypes = values?.fileStorageId[0].type;
+    const fileTypes = values?.fileStorageId[0].type!;
 
     const result = await fetch(postUrl, {
       method: "POST",

@@ -210,7 +210,7 @@ export default function CartButton() {
       setIsDialoadOpen(true);
       handlePlaceOrdered();
     }
-  }, [isPaid, getPayment]);
+  }, [isPaid, getPayment, handlePlaceOrdered]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
