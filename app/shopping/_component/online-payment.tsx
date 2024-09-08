@@ -69,16 +69,17 @@ export default function YourBillingComponent({
           color: "black",
         },
       };
+      if (typeof window !== "undefined" && window.Razorpay) {
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
 
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
-
-      paymentObject.on("payment.success", function (response: any) {
-        setIsDialoadOpen(true);
-      });
-      paymentObject.on("payment.failed", function (response: any) {
-        alert("Payment failed. Please try again. Contact support for help");
-      });
+        paymentObject.on("payment.success", function (response: any) {
+          setIsDialoadOpen(true);
+        });
+        paymentObject.on("payment.failed", function (response: any) {
+          alert("Payment failed. Please try again. Contact support for help");
+        });
+      }
     }
   };
 
